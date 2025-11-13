@@ -1,64 +1,100 @@
-# Identity Matching - Bitespeed Backend Task
+# Identity Matching — Bitespeed Backend Assignment
 
-This project implements an identity reconciliation solution as part of the Bitespeed backend assignment. It effectively identifies and links multiple contact entries of a customer across various orders using **email** or **phoneNumber**, consolidating contacts into primary and secondary relationships.
-
----
-
-## 🚀 Live API Endpoint
-
-**POST** `/identify`
-🌐 **Live URL:** [https://identity-matching.up.railway.app/identify](https://identity-matching.up.railway.app/identify)
-
-**Note:** Test the API using tools like Postman or Swagger/OpenAPI.
+This project implements an identity reconciliation service for the Bitespeed Backend Task.  
+It identifies and links multiple customer contact records using email and/or phoneNumber, creating primary–secondary contact hierarchies to unify customer identities across multiple orders.
 
 ---
 
-## ✨ Features
+## Live API Deployment (Render)
 
-* Identity matching based on email and/or phone number
-* Primary and secondary contacts reconciliation
-* SQL database support
-* RESTful API design
-* Deployed on Railway
+Base URL:  
+https://identity-matching.onrender.com
+
+### Primary API Endpoint
+```
+POST /identify
+```
+
+Use Postman, Thunder Client, or cURL to test the API.
 
 ---
 
-## 📌 API Documentation
+## Important Note About Opening in Browser
 
-### Identify Contact
+If you open this link directly in your browser:  
+```
+https://identity-matching.onrender.com
+```
 
-* **URL:** `/identify`
-* **Method:** `POST`
-* **Content-Type:** `application/json`
+You will see:
 
-**Request Body:**
+```
+404 Not Found
+```
 
+This is **expected** and **normal**.
+
+Why?
+
+- Browsers send a **GET** request.
+- This project does **NOT** have a `GET /` endpoint.
+- Only `POST /identify` exists.
+
+Therefore, the backend will always return `404 Not Found` when accessed directly in a browser.  
+To test the service correctly, you must send a **POST request** to:
+
+```
+https://identity-matching.onrender.com/identify
+```
+
+with JSON body.
+
+---
+
+## Features
+
+- Identity matching using email and/or phoneNumber  
+- Primary and secondary contact consolidation  
+- SQL database support  
+- RESTful API architecture  
+- Fully deployable on Render  
+- Dockerized backend  
+- Clean and reliable response structure  
+
+---
+
+## API Documentation
+
+### Endpoint: POST /identify
+
+### Request Body
 ```json
 {
-  "email"?: "string",
-  "phoneNumber"?: "string"
+  "email": "string (optional)",
+  "phoneNumber": "string (optional)"
 }
 ```
 
-**Note:** Fields marked with `?` are optional.
+You must provide at least one field: email or phoneNumber.
 
-**Response:**
-
-Returns details of the primary contact and associated secondary contacts, including their emails, phone numbers, and IDs.
-
+### Sample Response
 ```json
 {
   "contact": {
     "primaryContactId": 1,
-    "emails": ["george@hillvalley.edu"],
-    "phoneNumbers": ["123456"],
-    "secondaryContactIds": []
+    "emails": [
+      "abc@example.com",
+      "another@mail.com"
+    ],
+    "phoneNumbers": [
+      "1234567890"
+    ],
+    "secondaryContactIds": [4, 8]
   }
 }
 ```
 
-**Example Request:**
-
+### Example Request
 ```json
 {
   "email": "lovely@hillvalley.edu",
@@ -68,60 +104,88 @@ Returns details of the primary contact and associated secondary contacts, includ
 
 ---
 
-## 🛠️ Running Locally
+## Running Locally
 
-**Clone the repository:**
-
+### 1. Clone the repository
 ```bash
 git clone https://github.com/YAMARTHI-SAI-KUMAR/identity-matching.git
 cd identity-matching
 ```
 
-**Build the project:**
-
+### 2. Build the application
+Using Maven wrapper:
 ```bash
-./mvnw clean package
+./mvnw clean package -DskipTests
 ```
 
-**Run the application:**
+Windows:
+```bash
+mvnw.cmd clean package -DskipTests
+```
 
+### 3. Run the application
 ```bash
 java -jar target/identity-matching-0.0.1-SNAPSHOT.jar
 ```
 
-The API will run locally at: [http://localhost:8080](http://localhost:8080)
+### Local URL
+```
+http://localhost:8080
+```
 
 ---
 
-## ☁️ Deployment
+## Docker Support (Render Deployment)
 
-**Platform:** Railway.app
+This project includes a multi-stage Dockerfile for deployment.
 
-**Procfile:**
-
+### Build Docker image
+```bash
+docker build -t identity-matching .
 ```
-web: java -jar target/identity-matching-0.0.1-SNAPSHOT.jar
+
+### Run Docker container
+```bash
+docker run -p 8080:8080 identity-matching
 ```
 
-**Dynamic Port Configuration:**
+---
+
+## Deployment (Render)
+
+Render uses the Dockerfile directly to build and run the service.
 
 Ensure the following is set in `application.properties`:
 
-```ini
+```
 server.port=${PORT:8080}
 ```
 
----
-
-## 👤 Author
-
-**Sai Kumar Yamarthi**
-
-* [LinkedIn](https://www.linkedin.com/in/YAMARTHI-SAI-KUMAR)
-* [GitHub](https://github.com/YAMARTHI-SAI-KUMAR)
+Render assigns the `$PORT` during deployment.
 
 ---
 
-## 📃 License
+## Tech Stack
+
+- Java 17  
+- Spring Boot  
+- Spring Data JPA  
+- SQL / H2  
+- Maven  
+- Docker  
+- Render  
+- REST API  
+
+---
+
+## Author
+
+**Sai Kumar Yamarthi**  
+GitHub: https://github.com/YAMARTHI-SAI-KUMAR  
+LinkedIn: https://www.linkedin.com/in/YAMARTHI-SAI-KUMAR
+
+---
+
+## License
 
 This project is created for assignment and demonstration purposes.
