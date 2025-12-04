@@ -1,4 +1,4 @@
-# Identity Matching — Bitespeed Backend Assignment
+# Identity Matching 
 
 This project implements an identity reconciliation service for the Bitespeed Backend Task.  
 It identifies and links multiple customer contact records using email and/or phoneNumber, creating primary–secondary contact hierarchies to unify customer identities across multiple orders.
